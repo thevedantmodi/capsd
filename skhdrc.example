@@ -1,0 +1,6 @@
+# Hyper = cmd + alt + ctrl + shift (built into skhd).
+# Hold Caps Lock + key sends Hyper + key via capsd.
+hyper - t : open -a "Terminal"
+hyper - b : open -a "Safari"
+hyper - e : open -a "Visual Studio Code"
+hyper - c : open -a "Claude"
