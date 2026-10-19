@@ -15,13 +15,18 @@ install: build
 remap:
 	hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}'
 
-# Installs launch agents so the remap and capsd start at login
+# Installs launch agents so the remap and capsd start at login.
+# launchd refuses quarantined plists (error 5), and install keeps xattrs.
+# bootstrap can defer the first spawn, so kickstart both afterwards.
 agents:
 	mkdir -p $(AGENTS)
-	cp launchd/com.local.capsremap.plist $(AGENTS)/
-	sed "s|__HOME__|$(HOME)|g" launchd/com.local.capsd.plist > $(AGENTS)/com.local.capsd.plist
+	install -m 644 com.local.capsremap.plist $(AGENTS)/
+	-xattr -d com.apple.quarantine $(AGENTS)/com.local.capsremap.plist 2>/dev/null
+	sed "s|__HOME__|$(HOME)|g" com.local.capsd.plist > $(AGENTS)/com.local.capsd.plist
 	-launchctl bootstrap $(GUI) $(AGENTS)/com.local.capsremap.plist
 	-launchctl bootstrap $(GUI) $(AGENTS)/com.local.capsd.plist
+	-launchctl kickstart $(GUI)/com.local.capsremap
+	-launchctl kickstart $(GUI)/com.local.capsd
 
 restart:
 	launchctl kickstart -k $(GUI)/com.local.capsd

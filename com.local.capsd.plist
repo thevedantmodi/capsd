@@ -9,5 +9,7 @@
   </array>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
+  <key>StandardErrorPath</key><string>/tmp/capsd.log</string>
+  <key>StandardOutPath</key><string>/tmp/capsd.log</string>
 </dict>
 </plist>

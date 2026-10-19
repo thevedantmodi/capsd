@@ -64,6 +64,9 @@ skhd --stop-service
 
 - Check the remap: `hidutil property --get "UserKeyMapping"`
 - Check it is running: `pgrep capsd`
+- capsd output from the launch agent goes to `/tmp/capsd.log`. `Failed: grant
+  Accessibility / Input Monitoring` there means `~/bin/capsd` itself needs both
+  permissions (running it from a terminal borrows the terminal's).
 - Check what skhd receives: `skhd -o`, then hold Caps and press a key.
 - Hotkeys die only in a terminal: turn off Secure Keyboard Entry.
 - Caps Lock LED does not change: can happen on some external keyboards.
